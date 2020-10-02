@@ -24,8 +24,8 @@ Steps:
         mv tmp/.git /contrib/miniconda3/.git
         rm -rf tmp
 2. Follow the steps in the Miniconda section below.
-3. Restore the repo version of the conda source scripts: 
-        git checkout miniconda3/4.5.12/etc/profile.d
+3. Restore the repo version of the conda config and source scripts:
+        git checkout miniconda3/4.5.12
 
 ### Miniconda
 
@@ -38,14 +38,11 @@ There are a few specifics related to the AVID installation:
  - Do not have the installer edit your .bashrc
  - Install only on contrib or scratch space (individual user).
 
-After running the installer, do these steps:
 
- - Modify the conda configuration to turn OFF automatic conda updates:
-        conda config --set auto_update_conda False
- - On Hera, the sitecustomize.py file throws innocuous errors when using this
- installation of conda. Remove the file `
- $conda_root/lib/pythonX.Y/site-packages/sitecustomize.py` to stop the attempts
- at logging dependencies and remove the error.
+On Hera, the sitecustomize.py file throws innocuous, but noisy, errors when
+using this installation of conda. Remove the file `
+$conda_root/lib/pythonX.Y/site-packages/sitecustomize.py` to stop the attempts
+at logging dependencies and remove the error.
 
 ### Module
 
@@ -59,7 +56,7 @@ The module file is a Tcl script and has some useful documentation
 [here](https://modules.readthedocs.io/en/latest/modulefile.html).
 
 Note: the modulefile has become pretty complex for this version of miniconda
-since it requires sourcing seperate files for different shells. Future versions
+since it requires sourcing separate files for different shells. Future versions
 of miniconda may remedy this complexity.
 
 ### Conda Environments -- From existing
