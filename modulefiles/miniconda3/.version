@@ -1,0 +1,5 @@
+#%Module###########################################################
+##
+## version file for default module version
+#
+set ModulesVersion      "4.5.12"
