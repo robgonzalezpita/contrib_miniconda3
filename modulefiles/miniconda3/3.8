@@ -6,8 +6,8 @@ proc ModulesHelp { } {
               supported environments."
 }
 
-set ver  "4.5.12"
-set base "/contrib/miniconda3/$ver"
+set ver  "3.8"
+set base "/apps/contrib/miniconda3-noaa-gsl/$ver"
 
 set shell [module-info shelltype]
 
@@ -49,5 +49,3 @@ if {[module-info mode remove]} {
 
 prepend-path PATH $base/bin
 prepend-path LD_LIBRARY_PATH $base/lib
-prepend-path CONDA_ENVS_PATH ~/.conda/envs
-prepend-path CONDA_PKGS_PATH ~/.conda/pkgs
