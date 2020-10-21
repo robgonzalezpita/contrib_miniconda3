@@ -34,6 +34,8 @@ __conda_hashr() {
         \rehash
     elif [ -n "${POSH_VERSION:+x}" ]; then
         :  # pass
+    elif [ -n "${KSH_VERSION:+x}" ]; then
+        :  # pass
     else
         \hash -r
     fi
@@ -47,9 +49,9 @@ __conda_activate() {
         \unset CONDA_PS1_BACKUP
     fi
 
-    \local cmd="$1"
+    \typeset cmd="$1"
     shift
-    \local ask_conda
+    \typeset ask_conda
     CONDA_INTERNAL_OLDPATH="${PATH}"
     __add_sys_prefix_to_path
     ask_conda="$(PS1="$PS1" "$CONDA_EXE" $_CE_M $_CE_CONDA shell.posix "$cmd" "$@")" || \return $?
@@ -63,7 +65,7 @@ __conda_activate() {
 }
 
 __conda_reactivate() {
-    \local ask_conda
+    \typeset ask_conda
     CONDA_INTERNAL_OLDPATH="${PATH}"
     __add_sys_prefix_to_path
     ask_conda="$(PS1="$PS1" "$CONDA_EXE" $_CE_M $_CE_CONDA shell.posix reactivate)" || \return $?
@@ -76,7 +78,7 @@ conda() {
     if [ "$#" -lt 1 ]; then
         "$CONDA_EXE" $_CE_M $_CE_CONDA
     else
-        \local cmd="$1"
+        \typeset cmd="$1"
         shift
         case "$cmd" in
             activate|deactivate)
@@ -86,7 +88,7 @@ conda() {
                 CONDA_INTERNAL_OLDPATH="${PATH}"
                 __add_sys_prefix_to_path
                 "$CONDA_EXE" $_CE_M $_CE_CONDA "$cmd" "$@"
-                \local t1=$?
+                \typeset t1=$?
                 PATH="${CONDA_INTERNAL_OLDPATH}"
                 if [ $t1 = 0 ]; then
                     __conda_reactivate
@@ -98,7 +100,7 @@ conda() {
                 CONDA_INTERNAL_OLDPATH="${PATH}"
                 __add_sys_prefix_to_path
                 "$CONDA_EXE" $_CE_M $_CE_CONDA "$cmd" "$@"
-                \local t1=$?
+                \typeset t1=$?
                 PATH="${CONDA_INTERNAL_OLDPATH}"
                 return $t1
                 ;;
