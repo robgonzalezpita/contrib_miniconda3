@@ -13,7 +13,7 @@ conda environments including:
   - spp_vx, a Python 3 data handling and graphics environment
 
 
-## Installation
+## Installation (except NOAA RDHPC gaea)
 
 ---
 Steps:
@@ -93,6 +93,60 @@ For example:
     conda install -c conda-forge matplotlib
     conda install pillow
 
+## Installation and usage (NOAA RDHPC gaea only)
+
+The installation on gaea differs w.r.t. the version of miniconda and the modulefile
+being used, because gaea's Tcl version is too old to understand the default modulefile.
+
+Instead, we are using a modern lua modulefile and the ESRL-provided lua module support,
+together with version 4.8.3 of miniconda3. The installation procedure also differs slightly.
+
+### Installation
+
+mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
+cd /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
+
+# Install Miniconda
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-latest-Linux-x86_64.sh -u
+# install to /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3
+# skip initializing miniconda in user .bashrc/.profile etc.
+
+# Add in GSL miniconda3 repository
+git clone --recursive https://github.com/NOAA-GSD/contrib_miniconda3.git miniconda3
+rsync -av miniconda3/ ../
+
+# Copy modulefile in the right place
+mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
+cp -av modulefiles/miniconda3/4.8.3.lua /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
+
+### Usage
+
+# Initialize lua module environment
+source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
+
+# Load miniconda3 module
+module use /lustre/f2/pdata/esrl/gsd/contrib/modulefiles
+module load miniconda3/4.8.3
+
+# Create environment from yaml file (first time only)
+conda env create -f /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/environments/regional_workflow.yml
+
+# Activate environment
+conda activate regional_workflow
+
+# do your stuff ...
+
+# Deactivate conda and unload module
+conda deactivate
+module unload miniconda3
+
+### Notes
+
+1) Only the regional_workflow environment has been tested on gaea with miniconda3-4.8.3.
+2) After loading the miniconda3 module, warnings about a missing version information in
+   miniconda's libtinfo.so.6 are written to stdout frequently. Annoying, but harmless.
+
 ## Contact
 
   For issues or questions related to the contrib module, conda, or supported
@@ -102,3 +156,5 @@ For example:
   | ----------------| :---------------------------|
   | Christina Holt  | christina.holt@noaa.gov     |
   | Jeff Hamilton   | jeffrey.a.hamilton@noaa.gov |
+  | Dom Heinzeller  | dom.heinzeller@noaa.gov     | (gaea support)
+
