@@ -90,6 +90,7 @@ RDHPCS-supplied packages. Check
 the list of packages.
 
 For example:
+
     conda install -c conda-forge matplotlib
     conda install pillow
 
@@ -101,45 +102,47 @@ being used, because gaea's Tcl version is too old to understand the default modu
 Instead, we are using a modern lua modulefile and the ESRL-provided lua module support,
 together with version 4.8.3 of miniconda3. The installation procedure also differs slightly.
 
-### Installation
+### Miniconda installation
 
-mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
-cd /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
+    mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
+    cd /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
 
-# Install Miniconda
-wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-sh Miniconda3-latest-Linux-x86_64.sh -u
-# install to /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3
-# skip initializing miniconda in user .bashrc/.profile etc.
+    wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh sh Miniconda3-latest-Linux-x86_64.sh -u
 
-# Add in GSL miniconda3 repository
-git clone --recursive https://github.com/NOAA-GSD/contrib_miniconda3.git miniconda3
-rsync -av miniconda3/ ../
+Note: skip initializing miniconda in user .bashrc/.profile etc.
+
+### Include GSL miniconda3 repository
+
+    cd /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/src
+    git clone --recursive https://github.com/NOAA-GSD/contrib_miniconda3.git miniconda3
+    rsync -av miniconda3/ ../
 
 # Copy modulefile in the right place
-mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
-cp -av modulefiles/miniconda3/4.8.3.lua /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
+
+    mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
+    cp -av modulefiles/miniconda3/4.8.3.lua /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
 
 ### Usage
 
-# Initialize lua module environment
-source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
+#### Initialize lua module environment
 
-# Load miniconda3 module
-module use /lustre/f2/pdata/esrl/gsd/contrib/modulefiles
-module load miniconda3/4.8.3
+    source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
 
-# Create environment from yaml file (first time only)
-conda env create -f /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/environments/regional_workflow.yml
+    module use /lustre/f2/pdata/esrl/gsd/contrib/modulefiles
+    module load miniconda3/4.8.3
 
-# Activate environment
-conda activate regional_workflow
+#### Create environment from yaml file (first time only)
 
-# do your stuff ...
+    conda env create -f /lustre/f2/pdata/esrl/gsd/contrib/miniconda3/4.8.3/environments/regional_workflow.yml
 
-# Deactivate conda and unload module
-conda deactivate
-module unload miniconda3
+#### Activate environment
+
+    conda activate regional_workflow
+
+#### Deactivate conda and unload module
+
+    conda deactivate
+    module unload miniconda3
 
 ### Notes
 
