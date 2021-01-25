@@ -117,14 +117,13 @@ Note: skip initializing miniconda in user .bashrc/.profile etc.
     git clone --recursive https://github.com/NOAA-GSD/contrib_miniconda3.git miniconda3
     rsync -av miniconda3/ ../
 
-# Copy modulefile in the right place
-
+    # Copy modulefile to the right place
     mkdir -p /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
     cp -av modulefiles/miniconda3/4.8.3.lua /lustre/f2/pdata/esrl/gsd/contrib/modulefiles/miniconda3/
 
 ### Usage
 
-#### Initialize lua module environment
+#### Load miniconda module
 
     source /lustre/f2/pdata/esrl/gsd/contrib/lua-5.1.4.9/init/init_lmod.sh
 
