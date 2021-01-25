@@ -1,0 +1,51 @@
+#%Module######################################################################
+#
+
+proc ModulesHelp { } {
+            puts stderr "Sets up access to miniconda3, along with a few
+              supported environments."
+}
+
+set ver  "4.9.2"
+set base "/contrib/apps/miniconda3/"
+
+set shell [module-info shelltype]
+
+
+if {$shell == "csh"} {
+    set conda_file conda.csh
+} else {
+    set conda_file conda.sh
+}
+
+if { [module-info mode load] } {
+  system "source $base/etc/profile.d/$conda_file"
+}
+
+if {[module-info mode remove]} {
+
+    set layers $env(CONDA_SHLVL)
+
+    if {$shell == "csh"} {
+        set loaded [system "alias | grep conda -q"]
+        if { $loaded == 1 } {
+            system "source $base/etc/profile.d/$conda_file"
+        }
+    } else {
+        system "source $base/etc/profile.d/$conda_file"
+    }
+
+    while {$layers > 0} {
+        system "conda deactivate"
+        set layers [expr {$layers - 1}]
+    }
+
+    if {$shell == "csh"} {
+        system "unalias conda"
+    } else {
+        system "unset conda"
+    }
+}
+
+prepend-path PATH $base/bin
+prepend-path LD_LIBRARY_PATH $base/lib
