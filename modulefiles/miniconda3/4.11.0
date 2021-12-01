@@ -6,8 +6,8 @@ proc ModulesHelp { } {
               supported environments."
 }
 
-set ver  "4.5.12"
-set base "/contrib/miniconda3/$ver"
+set ver  "4.11.0"
+set base "~/miniconda3"
 
 set shell [module-info shelltype]
 

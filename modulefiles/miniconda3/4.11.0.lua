@@ -7,7 +7,7 @@ local shell=myShellType()
 
 conflict(pkgName)
 
-local base=pathJoin("/lustre/f2/pdata/esrl/gsd/contrib/miniconda3", pkgVersion)
+local base="~/miniconda3"
 local home=os.getenv("HOME")
 local conda_file=pathJoin(base,"etc", "profile.d", "conda." .. shell)
 local command="source " .. conda_file
